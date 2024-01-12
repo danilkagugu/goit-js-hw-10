@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const startBtn = document.querySelector('[data-start]');
 const daysTime = document.querySelector('[data-days]');
@@ -68,9 +70,22 @@ const timer = new Timer({
 });
 function auditUserSelected(userSelectedDate) {
   if (userSelectedDate < Date.now()) {
-    window.alert('Please choose a date in the future');
     startBtn.disabled = true;
-  } else startBtn.disabled = false;
+    iziToast.show({
+      title: 'Error',
+      message: 'Please choose a date in the future!',
+      position: 'topCenter',
+      color: 'red',
+    });
+  } else {
+    startBtn.disabled = false;
+    iziToast.show({
+      title: 'Success',
+      message: 'Lets go?',
+      position: 'topCenter',
+      color: 'green',
+    });
+  }
 }
 
 startBtn.addEventListener('click', timer.start.bind(timer));
