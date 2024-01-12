@@ -1,0 +1,76 @@
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+
+const startBtn = document.querySelector('[data-start]');
+const daysTime = document.querySelector('[data-days]');
+const hoursTime = document.querySelector('[data-hours]');
+const minutesTime = document.querySelector('[data-minutes]');
+const secondsTime = document.querySelector('[data-seconds]');
+
+let userSelectedDate;
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    userSelectedDate = selectedDates[0].getTime();
+    console.log(selectedDates[0]);
+    auditUserSelected(userSelectedDate);
+  },
+};
+flatpickr('#datetime-picker', options);
+
+class Timer {
+  constructor({ onTick }) {
+    this.onTick = onTick;
+    this.isActive = false;
+  }
+
+  start() {
+    this.intervalId = setInterval(() => {
+      const currentTime = Date.now();
+      const differenceTime = userSelectedDate - currentTime;
+      const time = convertMs(differenceTime);
+      this.onTick(time);
+    }, 1000);
+  }
+  stop() {}
+}
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+  return { days, hours, minutes, seconds };
+}
+
+function updateClockface({ days, hours, minutes, seconds }) {
+  daysTime.textContent = `${days}`.padStart(2, '0');
+  hoursTime.textContent = `${hours}`.padStart(2, '0');
+  minutesTime.textContent = `${minutes}`.padStart(2, '0');
+  secondsTime.textContent = `${seconds}`.padStart(2, '0');
+}
+
+const timer = new Timer({
+  onTick: updateClockface,
+});
+function auditUserSelected(userSelectedDate) {
+  if (userSelectedDate < Date.now()) {
+    window.alert('Please choose a date in the future');
+    startBtn.disabled = true;
+  } else startBtn.disabled = false;
+}
+
+startBtn.addEventListener('click', timer.start.bind(timer));
