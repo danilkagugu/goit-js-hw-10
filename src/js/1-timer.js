@@ -27,6 +27,7 @@ class Timer {
   constructor({ onTick }) {
     this.onTick = onTick;
     this.isActive = false;
+    startBtn.disabled = true;
   }
 
   start() {
