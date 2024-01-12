@@ -8,6 +8,7 @@ const daysTime = document.querySelector('[data-days]');
 const hoursTime = document.querySelector('[data-hours]');
 const minutesTime = document.querySelector('[data-minutes]');
 const secondsTime = document.querySelector('[data-seconds]');
+const input = document.querySelector('#datetime-picker');
 
 let userSelectedDate;
 const options = {
@@ -31,12 +32,25 @@ class Timer {
   }
 
   start() {
-    this.intervalId = setInterval(() => {
+    const timerId = (this.intervalId = setInterval(() => {
       const currentTime = Date.now();
       const differenceTime = userSelectedDate - currentTime;
       const time = convertMs(differenceTime);
       this.onTick(time);
-    }, 1000);
+      startBtn.disabled = true;
+      input.disabled = true;
+      if (differenceTime < 1000) {
+        clearInterval(timerId);
+        startBtn.disabled = false;
+        input.disabled = false;
+        iziToast.show({
+          title: 'Success',
+          message: 'Finish. You can use the timer again',
+          position: 'topCenter',
+          color: 'green',
+        });
+      }
+    }, 1000));
   }
   stop() {}
 }
@@ -82,7 +96,7 @@ function auditUserSelected(userSelectedDate) {
     startBtn.disabled = false;
     iziToast.show({
       title: 'Success',
-      message: 'Lets go?',
+      message: 'Lets go',
       position: 'topCenter',
       color: 'green',
     });
