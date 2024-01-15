@@ -37,30 +37,3 @@ form.addEventListener('submit', event => {
       });
     });
 });
-
-// const form = document.querySelector('.form');
-// form.addEventListener('submit', event => {
-//   event.preventDefault();
-
-//   const delay = form.delay.value;
-
-//   const promise = new Promise((resolve, reject) => {
-//     if (form.state.value === 'fulfilled') {
-//       setTimeout(() => {
-//         resolve(delay);
-//       }, delay);
-//     } else if (form.state.value === 'rejected') {
-//       setTimeout(() => {
-//         reject(delay);
-//       }, delay);
-//     }
-//   });
-
-//   promise
-//     .then(delay => {
-//       console.log(`Promise fulfilled after ${delay}ms.`);
-//     })
-//     .catch(delay => {
-//       console.log(`Promise rejected after ${delay}ms.`);
-//     });
-// });

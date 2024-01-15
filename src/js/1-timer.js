@@ -41,14 +41,6 @@ class Timer {
       input.disabled = true;
       if (differenceTime < 1000) {
         clearInterval(timerId);
-        startBtn.disabled = false;
-        input.disabled = false;
-        iziToast.show({
-          title: 'Success',
-          message: 'Finish. You can use the timer again',
-          position: 'topCenter',
-          color: 'green',
-        });
       }
     }, 1000));
   }
