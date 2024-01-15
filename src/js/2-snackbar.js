@@ -36,4 +36,5 @@ form.addEventListener('submit', event => {
         color: 'red',
       });
     });
+  event.currentTarget.reset();
 });
