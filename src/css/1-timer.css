@@ -1,3 +1,9 @@
+.btn-home {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #4e75ff;
+}
+
 .timer {
   display: flex;
   gap: 27px;
